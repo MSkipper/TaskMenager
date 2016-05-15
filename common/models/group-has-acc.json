@@ -1,0 +1,36 @@
+{
+  "name": "groupHasAcc",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "groupId": {
+      "type": "number",
+      "required": true
+    },
+    "accountId": {
+      "type": "number",
+      "required": true
+    },
+    "joinTime": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "groups": {
+      "type": "belongsTo",
+      "model": "Group",
+      "foreignKey": "groupId"
+    },
+    "accounts": {
+      "type": "belongsTo",
+      "model": "Account",
+      "foreignKey": "accountId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

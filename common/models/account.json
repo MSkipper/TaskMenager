@@ -1,0 +1,171 @@
+{
+  "name": "Account",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "display": [
+    "id",
+    "username",
+    "password",
+    "email",
+    "firstName",
+    "lastName",
+    {
+      "property": "roleMapping",
+      "sourceModel": "Account",
+      "sourceKey": "accountId",
+      "label": "Role",
+      "type": "reference",
+      "roles": [
+        "admin"
+      ],
+      "options": {
+        "model": "Role",
+        "key": "id",
+        "relationship": "Roles",
+        "searchField": "description",
+        "placeholder": "Select Roles",
+        "multiple": true,
+        "allowInsert": false,
+        "matchTemplate": "{{ $item.description }}",
+        "choiceTemplate": "{{ item.description }}",
+        "junctionMeta": {
+          "principalType": "USER"
+        }
+      }
+    },
+    "created",
+    "lastUpdated"
+  ],
+  "properties": {
+    "id": {
+      "type": "number",
+      "display": {
+        "label": "ID"
+      }
+    },
+    "realm": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string",
+      "required": true,
+      "length": 2000,
+      "display": {
+        "label": "Password",
+        "type": "password",
+        "description": "Password should contain at least 1 upper case letter, 1 number, and at least 6 characters long."
+      }
+    },
+    "credentials": {
+      "type": "string",
+      "deprecated": true,
+      "length": 2000
+    },
+    "emailVerified": {
+      "type": "boolean"
+    },
+    "verificationToken": {
+      "type": "string",
+      "length": 512
+    },
+    "status": {
+      "type": "string",
+      "length": 512
+    },
+    "created": {
+      "type": "date",
+      "display": {
+        "label": "Created Date",
+        "readonly": true,
+        "evalDefault": "new Date()"
+      }
+    },
+    "lastUpdated": {
+      "type": "date",
+      "display": {
+        "label": "Last Updated",
+        "readonly": true,
+        "evalDefault": "new Date()",
+        "forceDefaultOnSave": true
+      }
+    },
+    "firstName": {
+      "type": "string",
+      "length": 128,
+      "display": {
+        "label": "First Name"
+      }
+    },
+    "lastName": {
+      "type": "string",
+      "length": 256,
+      "display": {
+        "label": "Last Name"
+      }
+    },
+    "avatar": {
+      "type": "number",
+      "display": {
+        "label": "Avatar Code"
+      }
+    },
+    "role": {
+      "type": "string",
+      "length": 128,
+      "display": {
+        "label": "Role"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "RoleMappings": {
+      "type": "hasMany",
+      "model": "RoleMapping",
+      "foreignKey": "principalId"
+    },
+    "Roles": {
+      "type": "hasMany",
+      "model": "Role",
+      "through": "RoleMapping"
+    },
+    "groups": {
+      "type": "hasMany",
+      "model": "Group",
+      "foreignKey": "AccountId",
+      "through": "groupHasAcc"
+    },
+    "comments": {
+      "type": "hasMany",
+      "model": "Comment",
+      "foreignKey": "commentId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "__get__groups"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "__create__groups"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "find"
+    }
+  ],
+  "methods": {}
+}

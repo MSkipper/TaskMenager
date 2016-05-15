@@ -1,0 +1,54 @@
+{
+  "name": "Task",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string",
+      "required": true
+    },
+    "status": {
+      "type": "number",
+      "required": true
+    },
+    "assignedTo": {
+      "type": "string",
+      "required": false
+    },
+    "reviews": {
+      "type": [
+        "number"
+      ]
+    },
+    "createDate": {
+      "type": "string",
+      "required": false
+    },
+    "groupId": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "comments": {
+      "type": "hasMany",
+      "model": "Comment",
+      "foreignKey": "taskId"
+    },
+    "account": {
+      "type": "belongsTo",
+      "model": "Account",
+      "foreignKey": "id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

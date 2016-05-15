@@ -1,0 +1,39 @@
+{
+  "name": "Group",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "info": {
+      "type": "string",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "tasks": {
+      "type": "hasMany",
+      "model": "Task",
+      "foreignKey": "groupId"
+    },
+    "libs": {
+      "type": "hasMany",
+      "model": "Lib",
+      "foreignKey": "groupId"
+    },
+    "accounts": {
+      "type": "hasMany",
+      "model": "Account",
+      "foreignKey": "groupId",
+      "through": "groupHasAcc"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
